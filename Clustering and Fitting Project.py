@@ -197,43 +197,45 @@ urban.reset_index(inplace=True)
 
 urban.rename(columns={'index': 'Year'}, inplace=True)
 
-#renaming the country name to years
+# renaming the country name to years
 urban.rename(columns={'Country Name': 'Year'}, inplace=True)
 
-urban=urban.apply(pd.to_numeric) # converting to numeric
-print(urban.dtypes) # checking the types
+urban = urban.apply(pd.to_numeric)  # converting to numeric
+print(urban.dtypes)  # checking the types
 
 # Fitting for China
 
+
 def exponential(t, a, b):
     """Computes exponential growth of urban population
-    
+
     Parameters:
         t: The current time
         a: The initial population
         b: The growth rate
-        
+
     Returns:
         The population at the given time
     """
     f = a * np.exp(b * t)
     return f
 
+
 def err_range(x, func, param, sigma):
     """Calculates the error range for a given function and its parameters
-    
+
     Parameters:
         x: The input value for the function
         func: The function for which the error ranges will be calculated
         param: The parameters for the function
         sigma: The standard deviation of the data
-        
+
     Returns:
         The lower and upper error ranges
     """
     lower = func(x, *param)
     upper = lower
-    
+
     for i, p in enumerate(param):
         pmin = p - sigma[i]
         pmax = p + sigma[i]
@@ -241,16 +243,19 @@ def err_range(x, func, param, sigma):
         lower = np.minimum(lower, y)
         y = func(x, *param[:i], pmax, *param[i+1:])
         upper = np.maximum(upper, y)
-        
+
     return lower, upper
+
 
 years = urban['Year'].values
 population = urban['China'].values
 
 # Provide initial guess for exponential function
-initial_guess = [min(population), 0.01]  # You can adjust the initial guess if needed
+# You can adjust the initial guess if needed
+initial_guess = [min(population), 0.01]
 
-popt, pcov = curve_fit(exponential, years, population, p0=initial_guess, maxfev=5000)  # Increase maxfev
+popt, pcov = curve_fit(exponential, years, population,
+                       p0=initial_guess, maxfev=5000)  # Increase maxfev
 
 prediction_2030 = exponential(2030, *popt)
 prediction_2040 = exponential(2040, *popt)
@@ -273,7 +278,8 @@ lower, upper = err_range(curve_years_extended, exponential, popt, sigma)
 plt.figure(dpi=300)
 plt.plot(years, population, 'ro', label='Data')
 plt.plot(curve_years_extended, curve_population, 'b-', label='Fitted Curve')
-plt.fill_between(curve_years_extended, lower, upper, color='yellow', alpha=0.3, label='Error Range')
+plt.fill_between(curve_years_extended, lower, upper,
+                 color='yellow', alpha=0.3, label='Error Range')
 plt.xlabel('Year')
 plt.ylabel('Urban Population')
 plt.title('Exponential Growth Fit for Urban Population in China')
@@ -288,15 +294,16 @@ plt.show()
 # Polynomial function
 def polynomial(t, *coefficients):
     """Computes a polynomial function
-    
+
     Parameters:
         t: The time
         coefficients: Coefficients of the polynomial
-        
+
     Returns:
         The population at the given time
     """
     return np.polyval(coefficients, t)
+
 
 # Data
 years = urban['Year'].values
@@ -332,7 +339,8 @@ upper = curve_population + sigma
 plt.figure(dpi=300)
 plt.plot(years, population, 'ro', label='Data')
 plt.plot(curve_years_extended, curve_population, 'b-', label='Fitted Curve')
-plt.fill_between(curve_years_extended, lower, upper, color='yellow', alpha=0.9, label='Error Range')
+plt.fill_between(curve_years_extended, lower, upper,
+                 color='yellow', alpha=0.9, label='Error Range')
 plt.xlabel('Year')
 plt.ylabel('Urban Population')
 plt.title('Polynomial Fit for Urban Population in France')
@@ -377,7 +385,8 @@ upper = curve_population + sigma
 plt.figure(dpi=300)
 plt.plot(years, population, 'ro', label='Data')
 plt.plot(curve_years_extended, curve_population, 'b-', label='Fitted Curve')
-plt.fill_between(curve_years_extended, lower, upper, color='yellow', alpha=1, label='Error Range')
+plt.fill_between(curve_years_extended, lower, upper,
+                 color='yellow', alpha=1, label='Error Range')
 plt.xlabel('Year')
 plt.ylabel('Urban Population')
 plt.title('Polynomial Fit for Urban Population in Kenya')
