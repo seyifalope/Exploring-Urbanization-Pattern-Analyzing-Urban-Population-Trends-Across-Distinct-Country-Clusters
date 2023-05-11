@@ -1,2 +1,2 @@
-# Clusters
+# Clusters and fitting
 Clustering and Fitting
