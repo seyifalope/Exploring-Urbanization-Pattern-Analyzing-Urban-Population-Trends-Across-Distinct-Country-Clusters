@@ -1,3 +1,3 @@
-# Clusters and fitting
-Clustering and Fitting
+# Exploring Urbanization Pattern: Analyzing Urban Population Trends Across Distinct Country Clusters
+
 Urbanization is a global trend that has significant implications for social, economic, and environmental dynamics. In this study, we analyze urban population (% of total population) trends in three countries from the three different clusters obtained in our analysis to gain insights into the patterns of urbanization. By examining the historical urban population data and applying statistical models, I aim to understand the growth trajectories and potential future scenarios for urban populations. The selected countries represent diverse clusters, allowing us to explore variations in urbanization patterns influenced by factors such as economic development among others
